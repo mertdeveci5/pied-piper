@@ -1,6 +1,7 @@
 import Gun from "gun";
 import "gun/sea";
 import "gun/axe";
+import { useAccount } from "wagmi";
 import { createContext, useState } from "react";
 
 export const db = Gun();
@@ -12,11 +13,12 @@ const userDispatchContext = createContext(undefined);
 
 function UserProvider({ children }) {
   // web3 logins, we need to persist the wallet address
+  const { address } = useAccount();
 
   const [userDetails, setUserDetails] = useState({
     username: "pied piper - username",
     email: "mock@mock.com",
-    walletAddress: "0x0",
+    walletAddress: "address",
     ensAvatar: "img",
     ensName: "ensName",
   });

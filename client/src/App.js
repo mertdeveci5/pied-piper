@@ -17,11 +17,12 @@ const client = createClient({
 function App() {
   return (
     <>
-      <WagmiConfig client={client}>
+      <UserProvider>
+        {/* <WagmiConfig client={client}> */}
         <h1>The Chat App</h1>
-        <Profile />
         <ChatHome />
-      </WagmiConfig>
+        {/* </WagmiConfig> */}
+      </UserProvider>
     </>
   );
 }
