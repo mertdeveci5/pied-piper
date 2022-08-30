@@ -18,7 +18,7 @@ function UserProvider({ children }) {
   const [userDetails, setUserDetails] = useState({
     username: "pied piper - username",
     email: "mock@mock.com",
-    walletAddress: "address",
+    walletAddress: address,
     ensAvatar: "img",
     ensName: "ensName",
   });
