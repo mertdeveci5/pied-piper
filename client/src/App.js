@@ -3,16 +3,25 @@ import { useEffect, useState, useReducer } from "react";
 import Gun from "gun";
 import { faker } from "@faker-js/faker";
 import _ from "lodash";
-import { UserProvider } from "./models/user";
+import { UserProvider } from "./utils/user";
 import Profile from "./pages/Profile";
+import { WagmiConfig, createClient } from "wagmi";
+import { getDefaultProvider } from "ethers";
+import ChatHome from "./pages/ChatHome";
+
+const client = createClient({
+  autoConnect: true,
+  provider: getDefaultProvider(),
+});
 
 function App() {
   return (
     <>
-      <UserProvider>
-        <div>mert Deveci</div>
+      <WagmiConfig client={client}>
+        <h1>The Chat App</h1>
         <Profile />
-      </UserProvider>
+        <ChatHome />
+      </WagmiConfig>
     </>
   );
 }
