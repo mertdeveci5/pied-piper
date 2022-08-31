@@ -1,8 +1,8 @@
-import Gun from "gun";
+import Gun from "gun/gun";
 import "gun/sea";
 import "gun/axe";
 import { useAccount } from "wagmi";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const db = Gun();
 
@@ -21,16 +21,18 @@ function UserProvider({ children }) {
     walletAddress: address,
     ensAvatar: "img",
     ensName: "ensName",
+    avatar: "",
   });
 
-  user.get("identity").on((e) => {
-    setUserDetails(e);
+  user.get("alias").on((e) => {
+    setUserDetails({ ...userDetails, username: e });
+    console.log(`this comes from gunjs: ${e}`);
   });
 
   db.on("auth", async (event) => {
-    const identity = await user.get("identity");
-    setUserDetails(identity);
-    console.log(`Signed in as: ${identity.username}`);
+    const alias = await user.get("alias");
+    setUserDetails(alias);
+    console.log(`Signed in as: ${alias}`);
   });
 
   return (
