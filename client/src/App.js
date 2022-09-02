@@ -1,28 +1,30 @@
 import "./App.css";
 import { useEffect, useState, useReducer } from "react";
-import { ChakraProvider } from "@chakra-ui/react";
 import { Routes, Route, Link } from "react-router-dom";
+import { Button } from "@chakra-ui/react";
+import { useAccount } from "wagmi";
+
 // Components
-import Sidebar from "./components/Sidebar";
+import Home from "./pages/Home";
 import ChatList from "./pages/ChatList";
-import Error from "./pages/Error";
-import ChatView from "./components/ChatView";
+import useGunContext from "./context/context";
+
+const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 
 function App() {
+  const { getGun, getUser, setCertificate, onAuth } = useGunContext();
+  const { address, isConnecting, isDisconnected } = useAccount();
+
+  useEffect(() => {}, []);
+
   return (
     <>
-      <ChakraProvider>
-        <nav style={{ backgroundColor: "red" }}>
-          <h1>This is the app</h1>
-          <Link to="/">ChatList</Link>
-        </nav>
+      <div style={{ backgroundColor: "grey" }}>
         <Routes>
-          <Route path="/" element={<ChatList />}>
-            <Route path="/:id" element={<ChatView />} />
-          </Route>
-          <Route path="*" element={<Error />} />
+          <Route path="/" exact element={<Home />} />
+          <Route path="/chats" exact element={<ChatList />} />
         </Routes>
-      </ChakraProvider>
+      </div>
     </>
   );
 }

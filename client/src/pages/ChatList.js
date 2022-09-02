@@ -1,54 +1,41 @@
 import React from "react";
-import ChatCard from "../components/ChatCard";
-import { VStack, HStack } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-const dummyDirectMessages = [
-  {
-    id: 1,
-    name: "mert",
-    avatar: "",
-  },
-  {
-    id: 2,
-    name: "bertan",
-    avatar: "",
-  },
-  {
-    id: 3,
-    name: "vivek",
-    avatar: "",
-  },
-  {
-    id: 4,
-    name: "armand",
-    avatar: "",
-  },
-];
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import TopBar from "../components/TopBar";
+import useGunContext from "../context/context";
+
+const APP_KEY_PAIR = process.env.APP_KEY_PAIR;
 
 const ChatList = () => {
+  const { address, isConnecting, isDisconnected } = useAccount();
+  const { getGun } = useGunContext();
+  const [users, setUsers] = useState({});
+
+  useEffect(() => {
+    getGun()
+      .get(`~${APP_KEY_PAIR}`)
+      .get("profiles")
+      .map()
+      .on((profile, pub) => {
+        setUsers((users) => ({
+          ...users,
+          [pub]: profile,
+        }));
+      });
+  }, []);
+
   return (
-    <div
-      style={{
-        height: "100%",
-        minHeight: "60vh",
-        overflowY: "scroll",
-        position: "relative",
-        flex: 25,
-        backgroundColor: "grey",
-        display: "flex",
-        width: "35vw",
-      }}
-    >
-      <VStack spacing={2}>
-        {dummyDirectMessages.map((message, index) => {
-          return (
-            <Link key={index} to="/:id">
-              From: {message.name} == {message.id}
-            </Link>
-          );
-        })}
-      </VStack>
-    </div>
+    <>
+      <TopBar />
+      <p>{address}</p>
+      <div>
+        <ul>
+          {Object.entries(users).map(([pub, user]) => (
+            <li key={pub}>Username: ({user.username})</li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 
