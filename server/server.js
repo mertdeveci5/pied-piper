@@ -1,31 +1,26 @@
-// import express from "express";
-// import Gun from "gun";
-// import cors from "cors";
-// import SEA from "gun/sea.js";
 const express = require("express");
-const Gun = require("gun");
 const cors = require("cors");
-const SEA = require("gun/sea.js");
+const jwt = require("jsonwebtoken");
+let Gun = require("gun");
+const SEA = require("gun/sea");
 
+// implements forked version of bullet catcher with
+// additional error handling
 // require("bullet-catcher");
 require("dotenv").config();
 
-const APP_KEY_PAIR = JSON.parse(process.env.APP_KEY_PAIR);
-const APP_TOKEN_SECRET = process.env.APP_TOKEN_SECRET;
 const app = express();
 const port = process.env.PORT || 7000;
-app.use(cors());
+const APP_KEY_PAIR = JSON.parse(process.env.APP_KEY_PAIR);
+const APP_TOKEN_SECRET = process.env.APP_TOKEN_SECRET;
 
 app.use(Gun.serve);
 
-app.get("/", (req, res) => {
-  res.status(200).send(`Node is alive and working`);
-});
-
 const server = app.listen(port, () => {
-  console.log(`Server is running on port ${port}️‍🔥`);
+  console.log(`App listening at http://localhost:${port}`);
 });
 
+// verify JWT from gun message
 function verifyToken(msg) {
   if (msg?.headers?.accessToken) {
     try {
@@ -47,9 +42,14 @@ function verifyToken(msg) {
   return false;
 }
 
-const gun = Gun({ file: "db/data", web: server, isValid: verifyToken });
+const gun = Gun({
+  web: server,
+  isValid: verifyToken,
+});
 
+// Sync everything
 gun.on("out", { get: { "#": { "*": "" } } });
+
 // Authorize this app as a user
 gun.user().auth(APP_KEY_PAIR, ({ err }) => {
   // TODO handle app auth error
@@ -58,20 +58,29 @@ gun.user().auth(APP_KEY_PAIR, ({ err }) => {
   }
 });
 
+// parse application/json
 app.use(express.json());
+// if you're allowing gun access to more than one http origin,
+// you'll want to make sure that CORs for API routes is configured
+app.use(cors());
 
-app.post("api/certificates", async (req, res) => {
+app.post("/api/certificates", async (req, res) => {
   const { username, pub: userPubKey } = req.body;
+
+  // See https://gun.eco/docs/SEA.certify for policies
   const policy = [
-    gun
-      .get("~" + app.pub)
-      .get("profiles")
-      .get(user.pub)
-      .put({ name: "mert" }, null, { opt: { cert: certificate } }),
+    // allow users to add and edit their profiles with:
+    //   gun
+    //     .get('~'+app.pub)
+    //     .get('profiles')
+    //     .get(user.pub)
+    //     .put({ name: 'alice' }, null, {opt: { cert: certificate }} )
     { "*": "profiles", "+": "*" },
   ];
 
+  // expire in 2 hours
   const expiresAt = Date.now() + 60 * 60 * 1000 * 2;
+
   const certificate = await SEA.certify(
     [userPubKey],
     policy,
