@@ -8,28 +8,28 @@ import { GunContextProvider } from "./context/context";
 import { WagmiConfig, createClient } from "wagmi";
 import { ConnectKitProvider, getDefaultClient } from "connectkit";
 
-const alchemyId = process.env.ALCHEMY_SECRET_KEY;
-const client = createClient(
-  getDefaultClient({
-    appName: "Your App Name",
-    alchemyId,
-  })
-);
+// const alchemyId = process.env.ALCHEMY_SECRET_KEY;
+// const client = createClient(
+//   getDefaultClient({
+//     appName: "Your App Name",
+//     alchemyId,
+//   })
+// );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <WagmiConfig client={client}>
-      <ConnectKitProvider>
-        <BrowserRouter>
-          <ChakraProvider>
-            <GunContextProvider>
-              <App />
-            </GunContextProvider>
-          </ChakraProvider>
-        </BrowserRouter>
-      </ConnectKitProvider>
-    </WagmiConfig>
+    {/* <WagmiConfig client={client}> */}
+    {/* <ConnectKitProvider> */}
+    <BrowserRouter>
+      <ChakraProvider>
+        <GunContextProvider>
+          <App />
+        </GunContextProvider>
+      </ChakraProvider>
+    </BrowserRouter>
+    {/* </ConnectKitProvider> */}
+    {/* // </WagmiConfig> */}
   </React.StrictMode>
 );
 

@@ -1,3 +1,23 @@
+/*
+ * Provide one instance of gun to your entire app.
+ * NOTE Using this component blocks render until gun is ready
+ *
+ * Usage examples:
+ * // index.js
+ *   import { GunContextProvider } from './useGunContext'
+ *   // ...
+ *   <GunContextProvider>
+ *     <App />
+ *   </GunContextProvider>
+ *
+ * // App.js
+ *   import useGunContext from './useGunContext'
+ *   // ...
+ *   const { getGun, getUser } = useGunContext()
+ *
+ *   getGun().get('ours').put('this')
+ *   getUser().get('mine').put('that')
+ */
 import React, { createContext, useContext, useRef, useEffect } from "react";
 import Gun from "gun/gun";
 import "gun/sea";
@@ -20,6 +40,7 @@ export const GunContextProvider = ({ children }) => {
   useEffect(() => {
     Gun.on("opt", (ctx) => {
       if (ctx.once) return;
+
       ctx.on("out", function (msg) {
         const to = this.to;
         // Adds headers for put
@@ -38,12 +59,19 @@ export const GunContextProvider = ({ children }) => {
 
     const gun = Gun(["http://localhost:7000/gun"]);
 
-    const user = gun.user().recall({ sessionStorage: true });
+    // create user
+    const user = gun
+      .user()
+      // save user creds in session storage
+      // this appears to be the only type of storage supported.
+      // use broadcast channels to sync between tabs
+      .recall({ sessionStorage: true });
+
     gun.on("auth", (...args) => {
       if (!accessTokenRef.current) {
         // get new token
         user.get("alias").once((username) => {
-          fetch("http://localhost:8765/api/tokens", {
+          fetch("http://localhost:7000/api/tokens", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -64,7 +92,7 @@ export const GunContextProvider = ({ children }) => {
       if (!certificateRef.current) {
         // get new certificate
         user.get("alias").once((username) => {
-          fetch("http://localhost:8765/api/certificates", {
+          fetch("http://localhost:7000/api/certificates", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -99,8 +127,8 @@ export const GunContextProvider = ({ children }) => {
         getGun: () => gunRef.current,
         getUser: () => userRef.current,
         getCertificate: () => certificateRef.current,
-        setCertificate: (certificate) => {
-          certificateRef.current = certificate;
+        setCertificate: (v) => {
+          certificateRef.current = v;
         },
         onAuth: (cb) => {
           onAuthCbRef.current = cb;

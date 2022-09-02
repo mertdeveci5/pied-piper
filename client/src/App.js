@@ -9,11 +9,9 @@ import Home from "./pages/Home";
 import ChatList from "./pages/ChatList";
 import useGunContext from "./context/context";
 
-const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
-
 function App() {
   const { getGun, getUser, setCertificate, onAuth } = useGunContext();
-  const { address, isConnecting, isDisconnected } = useAccount();
+  // const { address, isConnecting, isDisconnected } = useAccount();
 
   useEffect(() => {}, []);
 

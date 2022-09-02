@@ -8,25 +8,25 @@ import { Avatar, Menu, MenuButton, MenuList } from "@chakra-ui/react";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 const TopBar = () => {
-  const { address, isConnecting, isDisconnected } = useAccount();
+  // const { address, isConnecting, isDisconnected } = useAccount();
   const navigate = useNavigate();
   const toast = useToast();
 
-  useEffect(() => {
-    if (address) {
-      toast({
-        title: "Connected",
-        description: `Connected with ${address}`,
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-      navigate("/chats");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (address) {
+  //     toast({
+  //       title: "Connected",
+  //       description: `Connected with ${address}`,
+  //       status: "success",
+  //       duration: 5000,
+  //       isClosable: true,
+  //       position: "bottom",
+  //     });
+  //     navigate("/chats");
+  //   }
+  // }, []);
 
   return (
     <>
@@ -56,7 +56,7 @@ const TopBar = () => {
                 background: "green",
               }}
             >
-              <ConnectKitButton />
+              {/* <ConnectKitButton /> */}
             </div>
           </MenuButton>
         </Menu>
