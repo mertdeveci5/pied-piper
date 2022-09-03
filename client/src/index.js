@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
-import { GunContextProvider } from "./context/context";
 
 // const alchemyId = process.env.ALCHEMY_SECRET_KEY;
 // const client = createClient(
@@ -19,13 +18,11 @@ root.render(
   <React.StrictMode>
     {/* <WagmiConfig client={client}> */}
     {/* <ConnectKitProvider> */}
-    {/* <BrowserRouter> */}
-    <ChakraProvider>
-      <GunContextProvider>
+    <BrowserRouter>
+      <ChakraProvider>
         <App />
-      </GunContextProvider>
-    </ChakraProvider>
-    {/* </BrowserRouter> */}
+      </ChakraProvider>
+    </BrowserRouter>
     {/* </ConnectKitProvider> */}
     {/* // </WagmiConfig> */}
   </React.StrictMode>
