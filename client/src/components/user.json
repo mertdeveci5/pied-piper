@@ -1,0 +1,15 @@
+{
+  "_": {
+    "#": "~8bsTmB0anq34q7GCM5s_pbOre4sDk0MSifJPjoz869Q.nDw1EKnzaDvRqlBSFukIQOSulu3qEnGG-M54trUal9A", // soul
+    ">": {
+      "pub": 1662242663679,
+      "alias": 1662242663679,
+      "auth": 1662242663679,
+      "epub": 1662242663679
+    }
+  },
+  "pub": "8bsTmB0anq34q7GCM5s_pbOre4sDk0MSifJPjoz869Q.nDw1EKnzaDvRqlBSFukIQOSulu3qEnGG-M54trUal9A",
+  "alias": "0x9ECD44CAC562B1B0cDBAfC704B1099ab3c3978Fc",
+  "auth": "{\"ek\":{\"ct\":\"aao0/zYQ/s8WnqSEzJTRD/7LqJewiIfj8vG0A3v3untMcyQ7DJByjZ485LQM0Hkny0XFR7RtN/GcoTQfu5Q4l4eQuoVsbfz7j+mcqXPRxnYDh/snjFI9RlFoQCdZrl0dXbyBmedbLTzWgXiuDhXQAsD/z5KrG7oO5KSVNA==\",\"iv\":\"8iRpW1KnmwU+XADPwM5t\",\"s\":\"O2CNSVG84iLm\"},\"s\":\"cpu7ytaboVTbedKBSgZrwnCUHxINdLcexZG8Ttwh0jq2THxI7yFnZLTKZ0rGMajH\"}",
+  "epub": "fs2GFpCosFnMiLyyiWT0JpTODB3ggQcnLDu9TXWndNs.fprFl10ORqAd2P1aL5tu1QBxBf_qAJp0xMC2CJXAlNs"
+}
